@@ -23,14 +23,14 @@ const port = process.env.PORT;
 const api_key = process.env.API2PDF_KEY;
 const server = process.env.API2PDF_SERVER;
 
-app.get("/", (req, res) => {
+app.get("/", (req, res, next) => {
   res.send("pdf editor server");
 });
 
 const location = __dirname + "/uploads";
 const output_location = __dirname + "/convert";
 
-app.post("/upload/pdftoword", (req, res) => {
+app.post("/upload/pdftoword", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -49,7 +49,7 @@ app.post("/upload/pdftoword", (req, res) => {
   }
 });
 
-app.post("/upload/pdftoppt", (req, res) => {
+app.post("/upload/pdftoppt", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -67,7 +67,7 @@ app.post("/upload/pdftoppt", (req, res) => {
   }
 });
 
-app.post("/upload/pdftoexcel", (req, res) => {
+app.post("/upload/pdftoexcel", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -85,7 +85,7 @@ app.post("/upload/pdftoexcel", (req, res) => {
   }
 });
 
-app.post("/upload/exceltopdf", (req, res) => {
+app.post("/upload/exceltopdf", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -103,7 +103,7 @@ app.post("/upload/exceltopdf", (req, res) => {
   }
 });
 
-app.post("/upload/wordtopdf", (req, res) => {
+app.post("/upload/wordtopdf", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -151,7 +151,7 @@ app.post("/upload/wordtopdf", (req, res) => {
   }
 });
 
-app.post("/upload/ppttopdf", (req, res) => {
+app.post("/upload/ppttopdf", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -169,7 +169,7 @@ app.post("/upload/ppttopdf", (req, res) => {
   }
 });
 
-app.post("/upload/jpgtopdf", (req, res) => {
+app.post("/upload/jpgtopdf", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -187,7 +187,7 @@ app.post("/upload/jpgtopdf", (req, res) => {
   }
 });
 
-app.post("/upload/htmltopdf", (req, res) => {
+app.post("/upload/htmltopdf", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   if (req.files === null) {
     return res.status(400).json({ msg: "No file Uploaded" });
@@ -207,4 +207,11 @@ app.post("/upload/htmltopdf", (req, res) => {
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
+});
+
+process.on("unhandledRejection", (err, promise) => {
+  console.log(`Error: ${err}`);
+  //Close server & exit process
+  // server.close(() => process.exit(0));
+  process.exit(0);
 });
